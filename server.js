@@ -8,6 +8,11 @@ var buzzwords = {
   buzzWords: [],
 };
 
+var currentScore = {
+  'success': null,
+   newScore: 0,
+};
+
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -29,10 +34,33 @@ app.post('/buzzwords', (req, res) => {
   res.send({ "success": true });
 });
 
-/*app.put('/buzzwords/:buzzword/:heard', (req,res) =>{
-  buzzwords.buzzWords
+app.put('/buzzwords', (req,res) =>{
+  var checkBuzzword = req.body.buzzword;
+  var currentArray = buzzwords.buzzWords;
+  var test = currentArray.filter(filterBuzzwords);
+
+  if(test.length === 0){
+    currentScore.success = false;
+    res.send(currentScore);
+  }
+
+  if(test.length > 0){
+    test[0].heard = true;
+    currentScore.success = true;
+    currentScore.newScore += test[0].score;
+    res.send(currentScore);
+  }
+
+
+  function filterBuzzwords(item){
+    if(item.buzzword === checkBuzzword){
+      return true;
+    }
+  }
 });
-*/
+
+
+
 var server = app.listen(8080, function () {
   var host = server.address().address;
   var port = server.address().port;
