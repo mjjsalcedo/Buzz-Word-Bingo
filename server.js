@@ -21,11 +21,15 @@ app.get('/buzzwords', (req,res) => {
   res.send(buzzwords);
 });
 
-app.post('/buzzwords/:buzzword/:score', (req, res) => {
-  buzzwords.buzzWords.push(req.params);
+app.post('/buzzwords', (req, res) => {
+  buzzwords.buzzWords.push(req.body);
   res.send({ "success": true });
 });
 
+/*app.put('/buzzwords/:buzzword/:heard', (req,res) =>{
+  buzzwords.buzzWords
+});
+*/
 var server = app.listen(8080, function () {
   var host = server.address().address;
   var port = server.address().port;
