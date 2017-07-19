@@ -22,6 +22,9 @@ app.get('/buzzwords', (req,res) => {
 });
 
 app.post('/buzzwords', (req, res) => {
+  var score = req.body.score;
+  var convertToNumber = Number(score);
+  req.body.score = convertToNumber;
   buzzwords.buzzWords.push(req.body);
   res.send({ "success": true });
 });
