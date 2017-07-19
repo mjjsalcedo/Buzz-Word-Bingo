@@ -2,15 +2,22 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
-
 var app = express();
 
+var buzzwords = {
+  buzzWords: [],
+};
+
 app.use(express.static('public'));
-// parse application/x-www-form-urlencoded
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req,res) => {
-  res.send('index');
+  res.render('index');
+});
+
+app.get('/buzzwords', (req,res) => {
+  res.send(JSON.stringify(buzzwords));
 });
 
 var server = app.listen(3000, function () {
