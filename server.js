@@ -27,11 +27,28 @@ app.get('/buzzwords', (req,res) => {
 });
 
 app.post('/buzzwords', (req, res) => {
+  var checkBuzzword = req.body.buzzword;
+  var currentArray = buzzwords.buzzWords;
+  var test = currentArray.filter(filterBuzzwords);
+
+  if(test.length > 0){
+    res.send({ "success": false });
+  }
+
+  if(test.length === 0){
   var score = req.body.score;
   var convertToNumber = Number(score);
   req.body.score = convertToNumber;
   buzzwords.buzzWords.push(req.body);
   res.send({ "success": true });
+  }
+
+  function filterBuzzwords(item){
+    if(item.buzzword === checkBuzzword){
+      return true;
+    }
+  }
+
 });
 
 app.put('/buzzwords', (req,res) =>{
@@ -58,7 +75,7 @@ app.put('/buzzwords', (req,res) =>{
   }
 });
 
-/*app.delete('/buzzwords', (req, res) => {
+app.delete('/buzzwords', (req, res) => {
   var checkBuzzword = req.body.buzzword;
   var currentArray = buzzwords.buzzWords;
   var test = currentArray.filter(filterBuzzwords);
@@ -69,18 +86,20 @@ app.put('/buzzwords', (req,res) =>{
 
   if(test.length > 0){
     currentScore.newScore -= test[0].score;
+    var hello = currentArray.map(function(e){
+      return e.buzzword;}).indexOf(checkBuzzword);
 
-    console.log("hello", currentArray[test]);
-    var removeWord = buzzwords.buzzWords;
+    var removeWord = buzzwords.buzzWords.splice(hello,1);
     res.send({ "success": true });
   }
 
   function filterBuzzwords(item){
     if(item.buzzword === checkBuzzword){
-      return true;
+      return item;
     }
   }
-});*/
+
+});
 
 app.post('/reset', (req, res)=>{
   buzzwords.buzzWords = [];
