@@ -51,7 +51,6 @@ app.put('/buzzwords', (req,res) =>{
     res.send(currentScore);
   }
 
-
   function filterBuzzwords(item){
     if(item.buzzword === checkBuzzword){
       return true;
@@ -59,7 +58,35 @@ app.put('/buzzwords', (req,res) =>{
   }
 });
 
+/*app.delete('/buzzwords', (req, res) => {
+  var checkBuzzword = req.body.buzzword;
+  var currentArray = buzzwords.buzzWords;
+  var test = currentArray.filter(filterBuzzwords);
 
+  if(test.length === 0){
+    res.send({ "success": false });
+  }
+
+  if(test.length > 0){
+    currentScore.newScore -= test[0].score;
+
+    console.log("hello", currentArray[test]);
+    var removeWord = buzzwords.buzzWords;
+    res.send({ "success": true });
+  }
+
+  function filterBuzzwords(item){
+    if(item.buzzword === checkBuzzword){
+      return true;
+    }
+  }
+});*/
+
+app.post('/reset', (req, res)=>{
+  buzzwords.buzzWords = [];
+  currentScore.newScore = 0;
+  res.send({ "success": true });
+});
 
 var server = app.listen(8080, function () {
   var host = server.address().address;
